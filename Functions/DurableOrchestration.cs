@@ -25,6 +25,8 @@ namespace Functions
             {
                 System.Console.WriteLine(item);
             }
+
+            var newsModel = await context.CallFetchNewsActivityAsync("_");
             return outputs;
         }
     }
