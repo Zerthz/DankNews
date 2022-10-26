@@ -1,20 +1,23 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.DurableTask;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.Azure.WebJobs.Host;
+
+using Microsoft.DurableTask;
 using Microsoft.Extensions.Logging;
 
 namespace Functions
 {
-    public static class SayHelloActivity
+    [DurableTask(nameof(SayHelloActivity))]
+    public class SayHelloActivity : TaskActivityBase<string, string>
     {
-        [FunctionName(nameof(SayHello))]
-        public static string SayHello([ActivityTrigger] string name, ILogger log)
+        readonly ILogger? logger;
+        public SayHelloActivity(ILoggerFactory? loggerFactory)
         {
-            log.LogInformation($"Saying hello to {name}.");
+            this.logger = loggerFactory?.CreateLogger<SayHelloActivity>();
+        }
+        protected override string OnRun(TaskActivityContext context, string? name)
+        {
+            logger?.LogInformation($"Saying hello to {name}.");
             return $"Hello {name}!";
         }
     }
