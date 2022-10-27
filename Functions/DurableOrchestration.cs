@@ -7,27 +7,18 @@ using Microsoft.Extensions.Logging;
 using Microsoft.DurableTask;
 namespace Functions
 {
+    // Typed är mobbat när vi inte behöver ngt för input, men det är den nyare teknologin enligt 
     [DurableTask(nameof(DurableOrchestration))]
     public class DurableOrchestration : TaskOrchestratorBase<string, List<string>>
     {
 
-        protected async override Task<List<string>?> OnRunAsync(TaskOrchestrationContext context, string? input)
+        protected async override Task<List<string>?> OnRunAsync(TaskOrchestrationContext context, string? _)
         {
-            var outputs = new List<string>();
 
-            // Replace "hello" with the name of your Durable Activity Function.
-            outputs.Add(await context.CallSayHelloActivityAsync("Tokyo"));
-            outputs.Add(await context.CallSayHelloActivityAsync("Seattle"));
-            outputs.Add(await context.CallSayHelloActivityAsync("London"));
+            var newsList = await context.CallFetchNewsActivityAsync("_");
 
-            // returns ["Hello Tokyo!", "Hello Seattle!", "Hello London!"]
-            foreach (var item in outputs)
-            {
-                System.Console.WriteLine(item);
-            }
 
-            var newsModel = await context.CallFetchNewsActivityAsync("_");
-            return outputs;
+            return null;
         }
     }
 
