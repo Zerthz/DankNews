@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.DurableTask;
 namespace Functions
 {
-    // Typed är mobbat när vi inte behöver ngt för input, men det är den nyare teknologin enligt 
+    // Typed är mobbat när vi inte behöver ngt för input, men det är den nyare teknologin enligt docs på github
     [DurableTask(nameof(DurableOrchestration))]
     public class DurableOrchestration : TaskOrchestratorBase<string, List<string>>
     {
