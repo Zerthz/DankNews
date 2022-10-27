@@ -5,11 +5,12 @@ using System.Net.Http;
 using System;
 using Functions.Models;
 using System.Text.Json;
+using System.Collections.Generic;
 
 namespace Functions
 {
     [DurableTask(nameof(FetchNewsActivity))]
-    public class FetchNewsActivity : TaskActivityBase<string, NewsModel>
+    public class FetchNewsActivity : TaskActivityBase<string?, List<News>>
     {
         readonly ILogger? logger;
 
@@ -21,7 +22,7 @@ namespace Functions
             logger = loggerFactory?.CreateLogger<FetchNewsActivity>();
         }
 
-        protected override async Task<NewsModel?> OnRunAsync(TaskActivityContext context, string? input)
+        protected override async Task<List<News>?> OnRunAsync(TaskActivityContext context, string? _)
         {
             using HttpClient client = new HttpClient()
             {
@@ -31,11 +32,20 @@ namespace Functions
 
             var response = await client.GetStringAsync(client.BaseAddress);
             if (response is null)
-                throw new ArgumentNullException(nameof(response));
+                throw new NullReferenceException(nameof(response));
 
             NewsModel model = JsonSerializer.Deserialize<NewsModel>(response)!;
+            if (model is null)
+                throw new NullReferenceException(nameof(model));
 
-            return model;
+
+            if (0 <= model.NewsList.Count)
+                throw new ArgumentException(nameof(model.NewsList), "doesn't have elements. Which it should have.");
+            // Ta bort alla promo grejer som inte är nyheter
+            model.NewsList.RemoveAll(n => n.ItemType == "promo");
+
+
+            return model.NewsList;
         }
     }
 }

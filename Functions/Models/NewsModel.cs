@@ -32,7 +32,7 @@ namespace Functions.Models
         public string? Copyright { get; set; }
     }
 
-    public class Result
+    public class News
     {
         [JsonPropertyName("section")]
         public string? Section { get; set; }
@@ -110,6 +110,6 @@ namespace Functions.Models
         public int NumResults { get; set; }
 
         [JsonPropertyName("results")]
-        public List<Result>? Results { get; set; }
+        public List<News> NewsList { get; set; } = new();
     }
 }
