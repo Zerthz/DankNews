@@ -39,10 +39,11 @@ namespace Functions
                 throw new NullReferenceException(nameof(model));
 
 
-            if (0 <= model.NewsList.Count)
+            if (model.NewsList.Count <= 0)
                 throw new ArgumentException(nameof(model.NewsList), "doesn't have elements. Which it should have.");
+
             // Ta bort alla promo grejer som inte är nyheter
-            model.NewsList.RemoveAll(n => n.ItemType == "promo");
+            model.NewsList.RemoveAll(n => n.ItemType!.Equals("promo", StringComparison.InvariantCultureIgnoreCase));
 
 
             return model.NewsList;
