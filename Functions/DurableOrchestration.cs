@@ -5,6 +5,8 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.DurableTask;
+using Functions.Cosmos;
+
 namespace Functions
 {
     // Typed är mobbat när vi inte behöver ngt för input, men det är den nyare teknologin enligt docs på github
@@ -14,6 +16,9 @@ namespace Functions
 
         protected async override Task<List<string>?> OnRunAsync(TaskOrchestrationContext context, string? _)
         {
+
+            AzureDb db = new AzureDb();
+            await db.Connect();
 
             var newsList = await context.CallFetchNewsActivityAsync("_");
 
