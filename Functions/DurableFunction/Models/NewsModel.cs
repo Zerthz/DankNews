@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace Functions.Models
+namespace DurableFunction.Models
 {
     public class Multimedium
     {

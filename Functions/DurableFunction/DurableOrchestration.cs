@@ -5,7 +5,8 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.DurableTask;
-namespace Functions
+
+namespace DurableFunction
 {
     // Typed är mobbat när vi inte behöver ngt för input, men det är den nyare teknologin enligt docs på github
     [DurableTask(nameof(DurableOrchestration))]

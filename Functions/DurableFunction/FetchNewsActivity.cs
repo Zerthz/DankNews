@@ -3,11 +3,11 @@ using Microsoft.DurableTask;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using System;
-using Functions.Models;
+using DurableFunction.Models;
 using System.Text.Json;
 using System.Collections.Generic;
 
-namespace Functions
+namespace DurableFunction
 {
     [DurableTask(nameof(FetchNewsActivity))]
     public class FetchNewsActivity : TaskActivityBase<string?, List<News>>

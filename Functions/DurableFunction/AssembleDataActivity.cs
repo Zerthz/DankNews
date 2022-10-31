@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Functions.Models;
+using DurableFunction.Models;
 using Microsoft.DurableTask;
 
-namespace Functions
+namespace DurableFunction
 {
 
     // We input a tuple, because I think you can only have 1 input to this, so we then immediatly break it out of the tuple

@@ -1,6 +1,6 @@
 using System;
 
-namespace Functions.Models
+namespace DurableFunction.Models
 {
 
     // TODO : Add more meme data?
