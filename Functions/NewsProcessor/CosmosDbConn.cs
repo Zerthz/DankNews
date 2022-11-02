@@ -10,7 +10,7 @@ namespace NewsProcessor.Cosmos
 
         // TODO : iaf key borde ligga i en keyvault
         const string endpoint = "https://cosmos-teknik-aaf.documents.azure.com:443/";
-        const string key = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
+        const string key = "99KapgQgxWre9Xzs4vEPopOv8NlTEJ6HndtfY1I6RHnLhdSaR7af181kwF1CRec4klZ53Jcel7RoM9W2rz1Zlg==";
 
         const string dbId = "MemeNewsDb";
         const string containerID = "MemeNews";
