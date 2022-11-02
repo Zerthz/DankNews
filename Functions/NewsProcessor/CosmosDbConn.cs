@@ -1,19 +1,18 @@
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Logging;
 using NewsProcessor.Models;
+using System.Configuration;
 
 namespace NewsProcessor.Cosmos
 {
     public class CosmosDbConn
     {
         readonly ILogger logger;
-
-        // TODO : iaf key borde ligga i en keyvault
         const string endpoint = "https://cosmos-teknik-aaf.documents.azure.com:443/";
-        const string key = "99KapgQgxWre9Xzs4vEPopOv8NlTEJ6HndtfY1I6RHnLhdSaR7af181kwF1CRec4klZ53Jcel7RoM9W2rz1Zlg==";
-
+        private readonly string? key = Environment.GetEnvironmentVariable("cosmos-dev-key");
         const string dbId = "MemeNewsDb";
         const string containerID = "MemeNews";
+
 
 
         public CosmosDbConn(ILoggerFactory loggerFactory)
@@ -25,6 +24,9 @@ namespace NewsProcessor.Cosmos
         {
             try
             {
+                if (key is null)
+                    throw new NullReferenceException(nameof(key) + " is null, can't create connection");
+
                 using CosmosClient client = new CosmosClient(endpoint, key);
                 var container = client.GetContainer(dbId, containerID);
 
