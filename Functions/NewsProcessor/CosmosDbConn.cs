@@ -1,5 +1,6 @@
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Logging;
+using NewsProcessor.Models;
 
 namespace NewsProcessor.Cosmos
 {
@@ -28,6 +29,7 @@ namespace NewsProcessor.Cosmos
                 var container = client.GetContainer(dbId, containerID);
 
                 logger.LogInformation($"Saving {itemToSave} to database");
+
                 Message msg = new Message(Guid.NewGuid(), itemToSave);
                 await container.CreateItemAsync<Message>(msg);
                 logger.LogInformation("Saved successfully");

@@ -2,6 +2,7 @@ using System;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using NewsProcessor.Cosmos;
+using NewsProcessor.Models;
 
 namespace StorageFunction
 {
