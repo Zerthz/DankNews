@@ -16,11 +16,11 @@ namespace DurableFunction
         public static async Task<string> RunOrchestration([OrchestrationTrigger] TaskOrchestrationContext context)
         {
             // News
-            var newsList = await context.CallActivityAsync<List<News>>(nameof(FetchNewsActivity.FetchNews), "");
+            //var newsList = await context.CallActivityAsync<List<News>>(nameof(FetchNewsActivity.FetchNews), "");
             // Memes
 
             // Assembled
-            var assembled = await context.CallActivityAsync<List<MemeNewsModel>>(nameof(AssembleDataActivity.AssembleMemeNews), new AssembleInput(newsList, new()));
+            //var assembled = await context.CallActivityAsync<List<MemeNewsModel>>(nameof(AssembleDataActivity.AssembleMemeNews), new AssembleInput(newsList, new()));
             // Save
 
             // memenews to test
@@ -36,13 +36,12 @@ namespace DurableFunction
                 MemeURL = ""
             };
 
+            await context.CallActivityAsync<string>(nameof(SaveToQueueActivity.Save), model);
 
-            var foo = await context.CallSaveToQueueActivityAsync("Hello World");
-            return "Hello World";
+            return null!;
         }
 
         [Function(nameof(HttpStart))]
-        [QueueOutput("newsqueue", Connection = "AzureWebJobsStorage")]
         public static async Task<string> HttpStart(
            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestData req,
            [DurableClient] DurableClientContext starter,

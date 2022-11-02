@@ -30,7 +30,7 @@ namespace NewsProcessor.Cosmos
 
                 logger.LogInformation($"Saving {itemToSave} to database");
 
-                itemToSave.Id = Guid.NewGuid();
+                itemToSave.id = Guid.NewGuid();
                 await container.CreateItemAsync<MemeNewsDTO>(itemToSave);
                 logger.LogInformation("Saved successfully");
             }
@@ -46,5 +46,4 @@ namespace NewsProcessor.Cosmos
         }
 
     }
-    public record Message(Guid id, string msg);
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Text.Json;
 using DurableFunction.Models;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.DurableTask;
@@ -6,29 +7,14 @@ using Microsoft.DurableTask;
 namespace DurableFunction
 {
 
-    [DurableTask(nameof(SaveToQueueActivity))]
-    public class SaveToQueueActivity : TaskActivityBase<string, string>
+    public static class SaveToQueueActivity
     {
+        [Function(nameof(Save))]
         [QueueOutput("newsqueue", Connection = "AzureWebJobsStorage")]
-        protected override string? OnRun(TaskActivityContext context, string? input)
+        public static string Save([ActivityTrigger] DurableFunction.Models.MemeNewsModel input)
         {
-
-            return input;
+            var serialiedInput = JsonSerializer.Serialize(input);
+            return serialiedInput;
         }
-
     }
-
-    // public static class SaveToQueueActivity
-    // {
-    //     [Function("SaveToQueue")]
-    //     [QueueOutput("newsqueue", Connection = "AzureWebJobsStorage")]
-    //     public static string[] Save([ActivityTrigger] string input)
-    //     {
-    //         string[] messages = {
-    //             $"Message = {input}",
-    //             $"Id = {Guid.NewGuid()}"
-    //         };
-    //         return messages;
-    //     }
-    // }
 }

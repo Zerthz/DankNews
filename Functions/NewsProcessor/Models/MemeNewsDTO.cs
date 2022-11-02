@@ -5,7 +5,7 @@ namespace NewsProcessor.Models
     public class MemeNewsDTO
     {
         [JsonPropertyName("id")]
-        public Guid Id { get; set; }
+        public Guid? id { get; set; }
         public string? NewsTitle { get; set; }
         public string? NewsAbstract { get; set; }
         public string? NewsSection { get; set; }
