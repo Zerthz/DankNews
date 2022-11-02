@@ -5,11 +5,8 @@ using Microsoft.DurableTask;
 
 namespace DurableFunction
 {
-
-    // We input a tuple, because I think you can only have 1 input to this, so we then immediatly break it out of the tuple
-    // because frick tuples, all my homies hate tuples
-
-    // The 2nd tuple value should go from string to meme model
+    // Had problems inputting a tuple to the activity with untyped, so sending in one of these. The string should be changed to memes
+    public record AssembleInput(List<News> NewsList, List<string> MemeList);
 
     public class AssembleDataActivity
     {
@@ -20,7 +17,7 @@ namespace DurableFunction
             [ActivityTrigger] DurableFunction.AssembleInput input,
              FunctionContext context)
         {
-            // break out of tuple
+
             var news = input.NewsList;
             // Vet inte hur många memes det är vi kommer få? är det typ 100+ eller typ 3?
             var memes = input.MemeList;

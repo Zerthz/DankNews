@@ -9,7 +9,6 @@ using DurableFunction.Models;
 
 namespace DurableFunction
 {
-    public record AssembleInput(List<News> NewsList, List<string> MemeList);
     // Typed är egentligen nyare men kan inte få det att funka med queue output för att rädda mitt liv..  
     public class DurableOrchestration
     {
@@ -21,7 +20,6 @@ namespace DurableFunction
             // Memes
 
             // Assembled
-            var assembleInput = (newsList, new List<string>());
             var assembled = await context.CallActivityAsync<List<MemeNewsModel>>(nameof(AssembleDataActivity.AssembleMemeNews), new AssembleInput(newsList, new()));
             // Save
 
