@@ -14,8 +14,7 @@ namespace DurableFunction
     public class FetchNewsActivity
     {
 
-        // TODO : put in a vault or something safe 
-        const string token = "dEXY9FNip1rKBlNnrY6L9JYKcr6ZipoW";
+        private readonly static string? token = Environment.GetEnvironmentVariable("nyt-api-token");
         [Function(nameof(FetchNews))]
         public static async Task<System.Collections.Generic.List<DurableFunction.Models.News>?> FetchNews([ActivityTrigger] string foo, FunctionContext context)
         {
