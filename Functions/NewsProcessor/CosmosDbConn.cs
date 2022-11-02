@@ -9,11 +9,11 @@ namespace NewsProcessor.Cosmos
         readonly ILogger logger;
 
         // TODO : iaf key borde ligga i en keyvault
-        const string endpoint = "https://localhost:8081";
+        const string endpoint = "https://cosmos-teknik-aaf.documents.azure.com:443/";
         const string key = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
 
-        const string dbId = "LocalTest";
-        const string containerID = "TestMessages";
+        const string dbId = "MemeNewsDb";
+        const string containerID = "MemeNews";
 
 
         public CosmosDbConn(ILoggerFactory loggerFactory)
