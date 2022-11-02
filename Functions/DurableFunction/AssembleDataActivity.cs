@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using DurableFunction.Models;
+using Microsoft.Azure.Functions.Worker;
 using Microsoft.DurableTask;
 
 namespace DurableFunction
@@ -9,17 +10,20 @@ namespace DurableFunction
     // because frick tuples, all my homies hate tuples
 
     // The 2nd tuple value should go from string to meme model
-    [DurableTask(nameof(AssembleDataActivity))]
-    public class AssembleDataActivity : TaskActivityBase<(List<News>, List<string>), List<MemeNewsModel>>
+
+    public class AssembleDataActivity
     {
 
         // TODO : Remove comments and add data from memes when we know what we're getting.
-        protected override List<MemeNewsModel>? OnRun(TaskActivityContext context, (List<News>, List<string>) input)
+        [Function(nameof(AssembleMemeNews))]
+        public static System.Collections.Generic.List<DurableFunction.Models.MemeNewsModel> AssembleMemeNews(
+            [ActivityTrigger] DurableFunction.AssembleInput input,
+             FunctionContext context)
         {
             // break out of tuple
-            var news = input.Item1;
+            var news = input.NewsList;
             // Vet inte hur många memes det är vi kommer få? är det typ 100+ eller typ 3?
-            var memes = input.Item2;
+            var memes = input.MemeList;
             // int counter = 0;
             List<MemeNewsModel> output = new List<MemeNewsModel>();
             foreach (var item in news)

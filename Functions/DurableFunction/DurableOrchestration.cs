@@ -5,26 +5,28 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.DurableTask;
+using DurableFunction.Models;
 
 namespace DurableFunction
 {
-    // Typed är mobbat när vi inte behöver ngt för input, men det är den nyare teknologin enligt docs på github
-    [DurableTask(nameof(DurableOrchestration))]
-    public class DurableOrchestration : TaskOrchestratorBase<string, List<string>>
+    public record AssembleInput(List<News> NewsList, List<string> MemeList);
+    // Typed är egentligen nyare men kan inte få det att funka med queue output för att rädda mitt liv..  
+    public class DurableOrchestration
     {
-
-        protected async override Task<List<string>?> OnRunAsync(TaskOrchestrationContext context, string? _)
+        [Function(nameof(RunOrchestration))]
+        public static async Task<string> RunOrchestration([OrchestrationTrigger] TaskOrchestrationContext context)
         {
+            // News
+            var newsList = await context.CallActivityAsync<List<News>>(nameof(FetchNewsActivity.FetchNews), "");
+            // Memes
 
-            var newsList = await context.CallFetchNewsActivityAsync("_");
+            // Assembled
+            var assembleInput = (newsList, new List<string>());
+            var assembled = await context.CallActivityAsync<List<MemeNewsModel>>(nameof(AssembleDataActivity.AssembleMemeNews), new AssembleInput(newsList, new()));
+            // Save
 
-
-            return null;
+            return null!;
         }
-    }
-
-    public static class OrchestrationStarter
-    {
 
         [Function(nameof(HttpStart))]
         public static async Task<HttpResponseData> HttpStart(
@@ -35,11 +37,12 @@ namespace DurableFunction
 
             ILogger logger = executionContext.GetLogger(nameof(HttpStart));
             // Function input comes from the request content.
-            string instanceId = await starter.Client.ScheduleNewDurableOrchestrationInstanceAsync();
+            string instanceId = await starter.Client.ScheduleNewOrchestrationInstanceAsync(nameof(RunOrchestration));
 
             logger.LogInformation($"Started orchestration with ID = '{instanceId}'.");
 
             return starter.CreateCheckStatusResponse(req, instanceId);
         }
     }
+
 }
