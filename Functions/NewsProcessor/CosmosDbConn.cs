@@ -32,6 +32,7 @@ namespace NewsProcessor.Cosmos
 
                 itemToSave.id = Guid.NewGuid();
                 await container.CreateItemAsync<MemeNewsDTO>(itemToSave);
+
                 logger.LogInformation("Saved successfully");
             }
             catch (CosmosException cre)

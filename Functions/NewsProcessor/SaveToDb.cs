@@ -18,13 +18,14 @@ namespace StorageFunction
             _dbConn = dbConn;
         }
 
+        // TODO : Handle errors etc.
         [Function("SaveToCosmos")]
         public async Task Run([QueueTrigger("newsqueue", Connection = "AzureWebJobsStorage")] string serializedNewsItem)
         {
             var newsItem = JsonSerializer.Deserialize<MemeNewsDTO>(serializedNewsItem);
 
             _logger.LogInformation($"C# Queue trigger function processed: {newsItem}");
-            await _dbConn.SaveToCosmos(newsItem);
+            await _dbConn.SaveToCosmos(newsItem!);
         }
     }
 }
