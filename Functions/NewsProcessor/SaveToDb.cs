@@ -1,4 +1,5 @@
 using System;
+using System.Text.Json;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using NewsProcessor.Cosmos;
@@ -18,8 +19,10 @@ namespace StorageFunction
         }
 
         [Function("SaveToCosmos")]
-        public async Task Run([QueueTrigger("newsqueue", Connection = "AzureWebJobsStorage")] string newsItem)
+        public async Task Run([QueueTrigger("newsqueue", Connection = "AzureWebJobsStorage")] string serializedNewsItem)
         {
+            var newsItem = JsonSerializer.Deserialize<MemeNewsDTO>(serializedNewsItem);
+
             _logger.LogInformation($"C# Queue trigger function processed: {newsItem}");
             await _dbConn.SaveToCosmos(newsItem);
         }

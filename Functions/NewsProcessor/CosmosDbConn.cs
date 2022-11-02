@@ -21,7 +21,7 @@ namespace NewsProcessor.Cosmos
             logger = loggerFactory.CreateLogger<CosmosDbConn>();
         }
 
-        public async Task SaveToCosmos(string itemToSave)
+        public async Task SaveToCosmos(MemeNewsDTO itemToSave)
         {
             try
             {
@@ -30,8 +30,8 @@ namespace NewsProcessor.Cosmos
 
                 logger.LogInformation($"Saving {itemToSave} to database");
 
-                Message msg = new Message(Guid.NewGuid(), itemToSave);
-                await container.CreateItemAsync<Message>(msg);
+                itemToSave.Id = Guid.NewGuid();
+                await container.CreateItemAsync<MemeNewsDTO>(itemToSave);
                 logger.LogInformation("Saved successfully");
             }
             catch (CosmosException cre)

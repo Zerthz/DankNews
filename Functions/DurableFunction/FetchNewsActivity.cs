@@ -6,23 +6,18 @@ using System;
 using DurableFunction.Models;
 using System.Text.Json;
 using System.Collections.Generic;
+using Microsoft.Azure.Functions.Worker;
 
 namespace DurableFunction
 {
-    [DurableTask(nameof(FetchNewsActivity))]
-    public class FetchNewsActivity : TaskActivityBase<string?, List<News>>
+
+    public class FetchNewsActivity
     {
-        readonly ILogger? logger;
 
         // TODO : put in a vault or something safe 
         const string token = "dEXY9FNip1rKBlNnrY6L9JYKcr6ZipoW";
-
-        public FetchNewsActivity(ILoggerFactory? loggerFactory)
-        {
-            logger = loggerFactory?.CreateLogger<FetchNewsActivity>();
-        }
-
-        protected override async Task<List<News>?> OnRunAsync(TaskActivityContext context, string? _)
+        [Function(nameof(FetchNews))]
+        public static async Task<System.Collections.Generic.List<DurableFunction.Models.News>?> FetchNews([ActivityTrigger] string foo, FunctionContext context)
         {
             using HttpClient client = new HttpClient()
             {
