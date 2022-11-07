@@ -1,0 +1,38 @@
+﻿@page "/"
+@using BlazorApp.Shared 
+@inject HttpClient Http
+@inject IMemeNewsService memeNewsService
+
+<PageTitle>DudesBeingLads</PageTitle>
+
+<h1>DudesBeingLads</h1>
+
+@if (memeNews == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @foreach (var meme in memeNews)
+    {
+        <p>@meme.NewsTitle</p>
+    }
+}
+
+@code {
+    private List<MemeNews> memeNews = new List<MemeNews>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            memeNews = await memeNewsService.GetMemeNews();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+        }
+    }
+}
+
+
