@@ -25,26 +25,21 @@ namespace BlazorApp.Api
             [CosmosDB(
                 databaseName: "MemeNewsDb",
                 collectionName: "MemeNews",
-                ConnectionStringSetting = "https://cosmos-teknik-aaf.documents.azure.com:443/")] CosmosClient client,
+                SqlQuery = "SELECT top 100 * FROM TestContainer t order by t.NewsDatePublished desc",
+                ConnectionStringSetting = "MemeNewsDb")] IEnumerable<MemeNews> memeNews,
             ILogger log)
         {
-
-            Microsoft.Azure.Cosmos.Container container = client.GetDatabase("MemeNewsDb").GetContainer("MemeNews");
-
-            QueryDefinition queryDefinition = new QueryDefinition(
-                "SELECT top 100 * FROM MemeNews order by MemeNews.NewsDatePublished desc");
-
-            using (FeedIterator<MemeNews> resultSet = container.GetItemQueryIterator<MemeNews>(queryDefinition))
+            if (memeNews is null)
             {
-                while (resultSet.HasMoreResults)
-                {
-                    FeedResponse<MemeNews> response = await resultSet.ReadNextAsync();
-                    MemeNews item = response.First();
-                    log.LogInformation(item.NewsByLine);
-                }
+                return new NotFoundResult();
             }
 
-            return new OkResult();
+            foreach (var meme in memeNews)
+            {
+                log.LogInformation(meme.NewsTitle);
+            }
+
+            return new OkObjectResult(memeNews.ToList());
         }
     }
 }

@@ -7,7 +7,6 @@ namespace BlazorApp.Shared
 {
     public class MemeNews
     {
-        [JsonPropertyName("id")]
         public Guid? id { get; set; }
         public string? NewsTitle { get; set; }
         public string? NewsAbstract { get; set; }
