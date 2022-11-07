@@ -7,17 +7,13 @@
 
 <h1>DudesBeingLads</h1>
 
-@if (memeNews == null)
+
+@foreach (var meme in memeNews)
 {
-    <p><em>Loading...</em></p>
+    <p>@meme.NewsTitle</p>
+    <img src=@meme.MemeURL/>
 }
-else
-{
-    @foreach (var meme in memeNews)
-    {
-        <p>@meme.NewsTitle</p>
-    }
-}
+
 
 @code {
     private List<MemeNews> memeNews = new List<MemeNews>();
