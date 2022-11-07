@@ -25,7 +25,7 @@ namespace BlazorApp.Api
             [CosmosDB(
                 databaseName: "MemeNewsDb",
                 collectionName: "MemeNews",
-                SqlQuery = "SELECT top 100 * FROM MemeNews m order by m.NewsDatePublished desc",
+                SqlQuery = "SELECT top 1 * FROM MemeNews m order by m.NewsDatePublished desc",
                 ConnectionStringSetting = "MemeNewsDb")] IEnumerable<MemeNews> memeNews,
             ILogger log)
         {
