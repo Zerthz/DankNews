@@ -16,27 +16,17 @@ namespace DurableFunction
         public static async Task<string> RunOrchestration([OrchestrationTrigger] TaskOrchestrationContext context)
         {
             // News
-            //var newsList = await context.CallActivityAsync<List<News>>(nameof(FetchNewsActivity.FetchNews), "");
+            var newsList = await context.CallActivityAsync<List<News>>(nameof(FetchNewsActivity.FetchNews), "");
             // Memes
-
+            var memesList = await context.CallActivityAsync<List<Meme>>(nameof(GetMemes.FetchMemes), "");
             // Assembled
-            //var assembled = await context.CallActivityAsync<List<MemeNewsModel>>(nameof(AssembleDataActivity.AssembleMemeNews), new AssembleInput(newsList, new()));
+            var assembled = await context.CallActivityAsync<List<MemeNewsModel>>(nameof(AssembleDataActivity.AssembleMemeNews), new AssembleInput(newsList, memesList));
             // Save
-
             // memenews to test
-            MemeNewsModel model = new MemeNewsModel()
+            foreach (var item in assembled)
             {
-                NewsTitle = "HelloWorld",
-                NewsAbstract = "",
-                NewsSection = "",
-                NewsSubsection = "",
-                NewsURL = "",
-                NewsDatePublished = System.DateTime.Now,
-                NewsByLine = "",
-                MemeURL = ""
-            };
-
-            await context.CallActivityAsync<string>(nameof(SaveToQueueActivity.Save), model);
+                await context.CallActivityAsync<string>(nameof(SaveToQueueActivity.Save), item);
+            }
 
             return null!;
         }
