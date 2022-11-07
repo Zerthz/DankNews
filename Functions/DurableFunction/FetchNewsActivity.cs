@@ -41,7 +41,10 @@ namespace DurableFunction
             // Ta bort alla promo grejer som inte är nyheter
             model.NewsList.RemoveAll(n => n.ItemType!.Equals("promo", StringComparison.InvariantCultureIgnoreCase));
 
-
+            foreach (var item in model.NewsList)
+            {
+                item.PublishedDateString = item.PublishedDate.ToString("dd/MM/yyyy HH:mm");
+            }
             return model.NewsList;
         }
     }

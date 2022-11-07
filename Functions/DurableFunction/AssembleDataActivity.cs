@@ -32,7 +32,7 @@ namespace DurableFunction
                     NewsAbstract = item.Abstract,
                     NewsSection = item.Section,
                     NewsSubsection = item.Subsection,
-                    NewsDatePublished = item.PublishedDate,
+                    NewsDatePublished = System.DateTime.Parse(item.PublishedDateString!),
                     NewsByLine = item.Byline,
                     NewsURL = item.Url,
 
