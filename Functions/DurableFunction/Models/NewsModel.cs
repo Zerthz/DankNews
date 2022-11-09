@@ -66,6 +66,7 @@ namespace DurableFunction.Models
 
         [JsonPropertyName("published_date")]
         public DateTime PublishedDate { get; set; }
+        public string? PublishedDateString { get; set; }
 
         [JsonPropertyName("material_type_facet")]
         public string? MaterialTypeFacet { get; set; }

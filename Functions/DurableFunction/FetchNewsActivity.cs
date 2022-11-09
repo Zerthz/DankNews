@@ -15,6 +15,7 @@ namespace DurableFunction
     {
 
         private readonly static string? token = Environment.GetEnvironmentVariable("nyt-api-token");
+
         [Function(nameof(FetchNews))]
         public static async Task<System.Collections.Generic.List<DurableFunction.Models.News>?> FetchNews([ActivityTrigger] string foo, FunctionContext context)
         {
@@ -39,7 +40,10 @@ namespace DurableFunction
             // Ta bort alla promo grejer som inte är nyheter
             model.NewsList.RemoveAll(n => n.ItemType!.Equals("promo", StringComparison.InvariantCultureIgnoreCase));
 
-
+            foreach (var item in model.NewsList)
+            {
+                item.PublishedDateString = item.PublishedDate.ToString("dd/MM/yyyy HH:mm");
+            }
             return model.NewsList;
         }
     }

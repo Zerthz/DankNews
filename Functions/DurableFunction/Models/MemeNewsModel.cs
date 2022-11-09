@@ -14,6 +14,7 @@ namespace DurableFunction.Models
         public DateTime NewsDatePublished { get; set; }
         public string? NewsByLine { get; set; }
         public string? MemeURL { get; set; }
+        public string? MemeAlt { get; set; }
 
     }
 }
