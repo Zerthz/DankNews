@@ -1,0 +1,21 @@
+﻿@using BlazorApp.Shared
+
+<div class="meme-news-card">
+    <div class="meme-img-container">
+        <img class="meme-img" src=@MemeNewsData.MemeURL alt=@MemeNewsData.MemeAlt />
+    </div>
+    
+    <div class="meme-card-body">
+        <h5 class="fs-500">@MemeNewsData.NewsTitle</h5>
+        <p>@MemeNewsData.NewsSection</p>
+    </div>
+
+    <div class="">
+        <a class="meme-button" target="_blank" href=@MemeNewsData.NewsURL>Gå till nyhet</a>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public MemeNews MemeNewsData { get; set; }
+}
