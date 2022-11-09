@@ -1,18 +1,21 @@
 ﻿@page "/"
-@using BlazorApp.Shared 
+@using BlazorApp.Shared
+@using BlazorApp.Client.Shared.Components
 @inject HttpClient Http
 @inject IMemeNewsService memeNewsService
 
 <PageTitle>DudesBeingLads</PageTitle>
 
-<h1>DudesBeingLads</h1>
+<div class="main-container">
+    <h1 class="fs-700">DudesBeingLads</h1>
+    <span class="font-italic">Special news for special needs</span>
 
+    @foreach (var meme in memeNews)
+    {
+       <MemeNewsCard MemeNewsData=@meme></MemeNewsCard>
+    }
+</div>
 
-@foreach (var meme in memeNews)
-{
-    <p>@meme.NewsTitle</p>
-    <img src=@meme.MemeURL/>
-}
 
 
 @code {
