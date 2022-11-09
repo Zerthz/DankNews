@@ -18,7 +18,7 @@ namespace DurableFunction
 
 
 
-        [Function(nameof(FetchMemes))]
+        [Function(nameof(FetchMemes)]
         public static async Task<System.Collections.Generic.List<DurableFunction.Models.Meme>> FetchMemes([ActivityTrigger] string discard, FunctionContext context)
         {
 
